@@ -1,0 +1,82 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: #242424;
+  background-color: #79e0ee;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+input {
+  background-color: #fefefe;
+  color: #242424;
+  font-size: medium;
+  width: 100%;
+  box-sizing: border-box;
+  outline: none;
+  padding: 10px 15px;
+  width: 55%;
+  border: none;
+  border-radius: 8px;
+}
+
+select {
+  background-color: #fefefe;
+  color: #242424;
+  font-size: medium;
+  width: 100%;
+  box-sizing: border-box;
+  outline: none;
+  padding: 10px 10px;
+  width: 20%;
+  border: none;
+  margin: 0;
+  border-radius: 8px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  /* display: flex; */
+  /* place-items: center; */
+  min-width: 320px;
+  min-height: 100vh;
+  border: 1px solid white;
+}
+
+button {
+  box-sizing: border-box;
+  font-size: medium;
+  outline: none;
+  padding: 10px 0;
+  width: 20%;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #18b375;
+  cursor: pointer;
+  transition: 0.5s;
+}
+button:hover {
+  border-color: #98eecc;
+}
+
+.card {
+  padding: 2em;
+}
+
+#app {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 2rem 0 0 0;
+  box-sizing: border-box;
+  text-align: center;
+}
