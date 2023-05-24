@@ -25,10 +25,18 @@
 </template>
 
 <script lang="ts">
+import { PropType } from 'vue';
+
+interface DataTask {
+    id : number
+    taskTitle: string
+    levelTask : 'Easy' | 'Medium' | 'Hard'
+  }
+
 export default {
   props:{
     dataTasks:{
-      type: Array,
+      type: Array as PropType<DataTask[]>,
       required: false,
       default: []
     },   
@@ -63,25 +71,20 @@ export default {
   font-size: 20px;
   font-weight: 500;
 }
-
 .delete {
   background-color: #939393;
   font-size: 20px;
   width: 15%;
 }
-
 .easy {
   background-color:#5dda1e ;
 }
-
 .medium {
   background-color:#cfe909 ;
 }
-
 .hard{
   background-color:#ff5653 ;
 }
-
 .center{
   width: 100%;
   font-weight: 600;
