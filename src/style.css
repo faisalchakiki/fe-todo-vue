@@ -1,3 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -5,7 +10,7 @@
 
   color-scheme: light dark;
   color: #242424;
-  background-color: #79e0ee;
+  /* background-color: #79e0ee; */
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -53,7 +58,9 @@ body {
 
 button {
   box-sizing: border-box;
+  display: block;
   font-size: medium;
+  color: #fafafa;
   outline: none;
   padding: 10px 0;
   width: 20%;
@@ -61,6 +68,7 @@ button {
   border-radius: 8px;
   font-weight: 500;
   font-family: inherit;
+  text-align: center;
   background-color: #18b375;
   cursor: pointer;
   transition: 0.5s;
@@ -73,7 +81,7 @@ button {
 #app {
   max-width: 880px;
   margin: 0 auto;
-  padding: 2rem 0 0 0;
+  padding: 1rem 0 0 0;
   box-sizing: border-box;
   text-align: center;
 }

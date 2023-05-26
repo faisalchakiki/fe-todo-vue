@@ -1,62 +1,96 @@
 <template>
   <form @submit.prevent="sendData">
     <div class="formAddUser">
-    <div class="wrapperInput">
-      <p>Name :</p>
-      <input class="inputUser" v-model="name" type="text" placeholder="Write your name." />
-    </div>     
-    <div class="wrapperInput">
-      <p>Email :</p>
-      <input class="inputUser" v-model="email" type="email" placeholder="Write your email." />
-    </div>  
-     <div class="wrapperSelect">
-      <p>Please select one :</p>
-      <select class="selectUser" v-model="gender">
-       <option value="male">Male</option>
-       <option value="female">Female</option>
-     </select>
-    </div>
+      <p class="text-2xl font-semibold tracking-wide mb-5 text-left">Insert User</p>
+      <p v-if="alert === 'success'" class="text-sm w-full text-left font-semibold -mt-5 tracking-wide text-green-500">*Success Insert Data</p>
+      <p v-if="alert === 'fail'" class="text-sm w-full text-left font-semibold -mt-5 tracking-wide text-red-500">*Please fill all the input</p>
+    <InputComponent @data-change="handleInput" :label="`Name`" :name="`name`" :type="`text`" :placeholder="`Write user name`" />    
+    <InputComponent @data-change="handleInput" :label="`Email`" :name="`email`" :type="`email`" :placeholder="`Write user email`" />    
+    <Select @on-selected="handleSelect" :label="`Plaese select one`" :name="`gender`" :default-value="dataUser.gender" :options="optionGender" />
     <button class="buttonUser">Add User</button>
    </div>
   </form>
 </template>
  
-<script lang="ts">
-  interface DataUsers {
-        name: string
-        gender:"male" | "female"
-        email: string
-        status:"active" | "inactive"
-  }
+  <script lang="ts">
+    import InputComponent from '../components/Input.vue'
+    import Select from '../components/Select.vue'
 
- 
- export default {
-   data() : DataUsers{
-     return {
-        name: '',
-        gender: "male",
-        email: '',
-        status: "active",
-     }
-   },
-   methods:{
-    clearData(){
-      this.name=  ''
-      this.gender= "male"
-      this.email=''
-      this.status= "active"
-    },
-    sendData(){
-      if(this.name === '' || this.email === ''){
-        alert('Please fill all the input')
-        return false;
-      }
-      // $emit = mengirimkan acara dengan nama dan data ke komponen induk.
-      this.$emit("dataAddUser", this.$data);
-      this.clearData()
+    interface DataUsers {
+        alert: 'success' | 'fail' | boolean,
+        dataUser : {
+          name: string
+          gender:'male' | 'female' | string
+          email: string
+          status:'active' | 'inactive'
+         },
+        optionGender : IOptions[]
     }
-   },
- }
+  
+    interface IOptions {
+          id: number
+          value: string   
+    }
+
+    export default {
+      components : {
+        InputComponent,
+        Select
+      },
+      data() : DataUsers{
+        return {
+          alert: false,
+          dataUser:{
+            name: '',
+            gender: 'male',
+            email: '',
+            status: 'active',
+           },
+          optionGender: [
+            {
+            id: 1,
+            value: 'male',
+            },
+            {
+            id: 1,
+            value: 'female',
+            },
+          ]
+        }
+      },
+      methods:{
+        clearData(){
+          this.dataUser = {
+            name: '',
+            gender: "male",
+            email: '',
+            status: "active",
+           }
+        },
+        sendData(){
+          if(this.dataUser.name === '' || this.dataUser.email === ''){
+            this.alert = 'fail'
+            return false;
+          }
+          // $emit = mengirimkan acara dengan nama dan data ke komponen induk.
+          this.$emit("dataAddUser", this.dataUser);
+          this.alert = 'success'
+          this.clearData()
+        },
+        handleInput(val: any){
+          if(val.name === 'name'){
+            this.dataUser.name = val.value
+          }else{
+            this.dataUser.email = val.value
+          }
+          // this.dataUser[val.name] = inputValue
+        },
+        handleSelect(val: any){
+          const genderSelected : string = val.value
+          this.dataUser.gender = genderSelected
+        },
+      },
+    }
  </script>
  
  <style scoped>
@@ -69,28 +103,6 @@
    margin-bottom: 35px;
    margin: auto;
  }
- .wrapperInput{
-  text-align: left;
-  margin-bottom: 5px;
- }
- .wrapperSelect{
-  text-align: left;
-  margin: 10px 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
- }
- .wrapperInput p , .wrapperSelect p{
-  margin: 0 0 5px 0;
-  font-weight: 500;
- }
-
- .inputUser {
-  width: 100%;
-}
-  .selectUser {
-  width: 50%;
-}
 
 .buttonUser {
   margin:15px 0;

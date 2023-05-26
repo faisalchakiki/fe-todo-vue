@@ -1,20 +1,27 @@
 <template>
   <div class="wrapper-card">
-      <div class="card"  v-for="(item, index) in dataUsers" :key="index">
-        <div>
-          <p class="text-user">Name : {{item.name}}</p>
-          <p class="text-user">Email : {{item.email}}</p>
-        </div>
-        <div class="wrap-btn">
-          <button @click="goToDetails(item?.id)" class="details-btn green">Details</button>
+    <p class="text-2xl w-full text-left pl-[2.5%] mb-5 font-semibold tracking-wide">LIST USER</p>
+    <p v-if="isLoggedIn === false" class="text-sm w-full text-left pl-[2.5%] -mt-5 tracking-wide">limited access for admin</p>
+    <div class="card"  v-for="(item, index) in dataUsers" :key="index">
+      <div>
+        <p class="text-user">Name : {{item.name}}</p>
+        <p class="text-user">Email : {{item.email}}</p>
+        <p v-if="isLoggedIn" class="text-user">Gender : {{item.gender}}</p>
+        <p v-if="isLoggedIn" class="text-user">Status : {{item.status}}</p>
+      </div>
+      <div v-if="isLoggedIn" class="wrap-btn">
+          <button @click="goToEdit(item?.id)" class="details-btn green">Update</button>
           <button @click="deleteUser(item?.id)" class="delete-btn">Delete</button>
-        </div>
       </div>
     </div>
+  </div>
+  <Modal @on-confirm="handleConfirm" v-if="modalStatus" />
 </template>
 
 <script lang="ts">
   import { PropType } from 'vue';
+  import Modal from './Modal.vue';
+  const keyToken = localStorage.getItem('token') || false
 
   interface IUsers {
         id: number
@@ -25,6 +32,16 @@
   }
 
   export default {
+    components:{
+      Modal
+    },
+    data() {
+      return {
+        isLoggedIn: keyToken,
+        modalStatus : false,
+        id: 0
+      }
+    },
     props:{
       dataUsers:{
         type: Array as PropType<IUsers[]>,
@@ -33,15 +50,24 @@
       },   
     },
     methods: {
-      deleteUser(id : number){
-        if(confirm('Are you sure want to remove user?')){
-          return this.$emit("deleteId", id);
-        }
-        return alert('Good Luck')
+      handleModal(){
+        this.modalStatus = !this.modalStatus
       },
-      goToDetails(id : number){
+      handleConfirm(val : string){
+        if(val === 'cancel'){
+          this.handleModal()
+        }else{
+          this.handleModal()
+          this.$emit('deleteId', this.id)
+        }
+      },
+      deleteUser(id : number){
+        this.handleModal()
+        this.id = id
+      },
+      goToEdit(id : number){
         this.$router.push(`/listUsers/${id}`)
-      }
+      },
     }
   }
 </script>
@@ -53,6 +79,10 @@
     flex-wrap: wrap;
     justify-content: space-around;
     margin: 20px 0;
+    background-color: #e7e7e7;
+    border-radius: 8px;
+    padding: 2rem 0;
+
   }
   .wrap-btn{
     width: 100%;
@@ -65,7 +95,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 40%;
+    width: 45%;
     color: #221e1e;
     padding: 5px 2rem;
     text-align: left;

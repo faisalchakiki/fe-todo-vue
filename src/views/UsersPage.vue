@@ -1,5 +1,5 @@
-<template >
-  <AddUsers @dataAddUser="postDataNewUser" />
+<template>
+  <NavbarUser />
   <ListUsers :data-users="dataUsers" @deleteId="deleteDataUser" />
 </template>
 
@@ -7,7 +7,8 @@
   import axios from 'axios';
   import AddUsers from '../components/AddUsers.vue'
   import ListUsers from '../components/ListUsers.vue'
-
+  import NavbarUser from '../components/NavbarUser.vue'
+  
   const token = 'ff59547831b86a21854646454b438a7551706b76aac946d38f9b611a3affe273'
   const config = {
     headers: { Authorization: `Bearer ${token}` }
@@ -18,17 +19,18 @@
   }
 
   interface IUsers {
-        id: number
-        name: string
-        gender:"male" | "female"
-        email: string
-        status:"active" | "inactive"
+      id: number
+      name: string
+      gender:"male" | "female"
+      email: string
+      status:"active" | "inactive"
   }
 
   export default {
     components: {
         AddUsers,
-        ListUsers
+        ListUsers,
+        NavbarUser
     },
     data(): Data {
         return{
@@ -43,12 +45,6 @@
         const response = await axios.get('https://gorest.co.in/public/v2/users', config)
         this.dataUsers = response.data
       },
-      async postDataNewUser(newData : any){
-        const response = await axios.post('https://gorest.co.in/public/v2/users', newData, config)
-        if(response.data) {
-          this.fetchData()
-        }
-      },
       async deleteDataUser(id : number){
         const response = await axios.delete(`https://gorest.co.in/public/v2/users/${id}`,config)
         if(response.status === 204) {
@@ -56,7 +52,7 @@
           this.fetchData()
         }
       }
-    }
+    },
   }
 </script>
 
